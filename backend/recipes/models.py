@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 from django.db.models import UniqueConstraint
 
+
 User = get_user_model()
 
 
@@ -49,16 +50,19 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User,
         related_name='recipes',
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE,
         verbose_name='Автор',
+        blank=False,
+        null=False
     )
     name = models.CharField('Название', max_length=200)
 
     text = models.TextField('Описание')
     image = models.ImageField(
         'Картинка',
-        upload_to='recipes/'
+        upload_to='recipes/',
+        blank=False,
+        null=False
     )
     cooking_time = models.PositiveSmallIntegerField(
         'Время приготовления в минутах',
@@ -71,16 +75,21 @@ class Recipe(models.Model):
         Ingredient,
         through='IngredientInRecipe',
         related_name='recipes',
-        verbose_name='Ингредиенты'
+        verbose_name='Ингредиенты',
+        blank=False,
     )
     tags = models.ManyToManyField(
         Tag,
         related_name='recipes',
-        verbose_name='Теги'
+        verbose_name='Теги',
+        blank=False,
     )
+    pub_date = models.DateTimeField(
+        'Дата публикации',
+        auto_now_add=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-pub_date']
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
@@ -145,7 +154,7 @@ class Favorite(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.user} закинул "{self.recipe}" в избранное'
+        return f'Пользователь {self.user} добавил {self.recipe} в избранные.'
 
 
 class ShoppingCart(models.Model):
@@ -173,4 +182,4 @@ class ShoppingCart(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.user} положил "{self.recipe}" в корзину'
+        return f'Пользователь {self.user} добавил {self.recipe} в покупки.'
