@@ -85,6 +85,7 @@ sudo docker-compose up -d --build
     ```
     - Примените миграции:
     ```
+    sudo docker-compose exec backend python manage.py makemigrations
     sudo docker-compose exec backend python manage.py migrate --noinput
     ```
     - Загрузите ингридиенты  в базу данных (необязательно):  
