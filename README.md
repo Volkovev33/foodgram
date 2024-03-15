@@ -105,4 +105,4 @@ sudo docker-compose up -d --build
 ```
 ## Проект в интернете
 Проект запущен и доступен по [адресу](https://yaprojects.ddns.net/)
-Доступные эндпоинты: 
+Доступные [эндпоинты](https://yaprojects.ddns.net/api/docs)
