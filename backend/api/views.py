@@ -182,7 +182,7 @@ class IngredientViewSet(ListRetrieveViewSet):
     serializer_class = IngredientSerializer
     pagination_class = None
     filter_backends = (IngredientFilter,)
-    search_fields = ['^name',]
+    search_fields = ['^name', ]
     permission_classes = (permissions.AllowAny,)
 
 

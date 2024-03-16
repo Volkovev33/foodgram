@@ -11,8 +11,7 @@ class Ingredient(models.Model):
     name = models.CharField('Название', max_length=200)
     measurement_unit = models.CharField(
         'Единицы измерения',
-        max_length=200
-        )
+        max_length=200)
 
     class Meta:
         verbose_name = 'Ингредиент'
@@ -68,8 +67,7 @@ class Recipe(models.Model):
         'Время приготовления в минутах',
         validators=[MinValueValidator(
             1,
-            message='Нельзя готовить меньше минуты!'
-            )]
+            message='Нельзя готовить меньше минуты!')]
     )
     ingredients = models.ManyToManyField(
         Ingredient,
@@ -113,8 +111,7 @@ class IngredientInRecipe(models.Model):
         'Количество',
         validators=[MinValueValidator(
             1,
-            message='Нельзя добавить меньше единицы!'
-            )]
+            message='Нельзя добавить меньше единицы!')]
     )
 
     class Meta:
@@ -149,8 +146,7 @@ class Favorite(models.Model):
         constraints = [
             UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_favourite'
-                )
+                name='unique_favourite')
         ]
 
     def __str__(self):
@@ -177,8 +173,7 @@ class ShoppingCart(models.Model):
         constraints = [
             UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_shopping_cart'
-                )
+                name='unique_shopping_cart')
         ]
 
     def __str__(self):

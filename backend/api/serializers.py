@@ -208,11 +208,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         if tags_list > tags_set:
             raise serializers.ValidationError('Тэг должен быть уникальным!')
 
-        image = self.initial_data.get('image')
-        if not image:
-            raise serializers.ValidationError('blabla')
-        return data
-
     @staticmethod
     def create_ingredients(ingredients, recipe):
         for ingredient in ingredients:
