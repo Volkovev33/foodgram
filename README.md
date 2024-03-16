@@ -104,6 +104,24 @@ sudo docker-compose up -d --build
 ```
 <adpress>/api/docs/
 ```
+
 ## Проект в интернете
 Проект запущен и доступен по [адресу](https://yaprojects.ddns.net/)
-Доступные [эндпоинты](https://yaprojects.ddns.net/api/docs)
+
+### Основные эндпоинты
+Ингридиенты:
+```
+http://yaprojects.ddns.net/api/ingredients/
+```
+Рецепты:
+```
+https://yaprojects.ddns.net/api/recipes/
+```
+Теги:
+```
+http://yaprojects.ddns.net/api/tags/
+```
+Пользователи:
+```
+http://yaprojects.ddns.net/api/users/
+```

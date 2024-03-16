@@ -1,4 +1,26 @@
-Адрес проекта: https://yaprojects.ddns.net/ъ
-Админка (email:pwd): a@a.com:admin
+Адрес проекта: https://yaprojects.ddns.net/
 
+Учётные данные для входа
+
+Админка: 
+log: a@a.com
+pass: admin12345.
+
+
+Пользователи:
+User1:
+log: vpupkin@yandex.ru
+pass: vasya12345.
+
+User2:
+log: second_user@email.org
+pass: second12345.
+
+
+User3:
+log: third-user@user.ru
+pass: third12345.
+
+
+-------------------------------
 Не душите сильно, пожалуйста :)
