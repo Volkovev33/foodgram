@@ -29,12 +29,14 @@ INSTALLED_APPS = [
     'django_filters',
     'api.apps.ApiConfig',
     'recipes.apps.RecipesConfig',
+    'corsheaders',
     'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,6 +89,9 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'users.User'
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -101,6 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://yaprojects.ddns.net']
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
