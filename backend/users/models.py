@@ -20,9 +20,8 @@ class User(AbstractUser):
         max_length=150,
         validators=[
             RegexValidator(
-                regex='^[\w.@+-]+\Z',
-                message='Некорректное имя пользователя!'
-            )
+                regex=r'^[\w.@+-]+\Z',
+                message='Некорректное имя пользователя!')
         ]
     )
     USERNAME_FIELD = 'email'
@@ -35,8 +34,7 @@ class User(AbstractUser):
         constraints = [
             UniqueConstraint(
                 fields=['username'],
-                name='unique_username'
-                )
+                name='unique_username')
         ]
 
     def __str__(self):
@@ -62,8 +60,7 @@ class Subscribe(models.Model):
         constraints = [
             UniqueConstraint(
                 fields=['user', 'author'],
-                name='unique_subscription'
-                )
+                name='unique_subscription')
         ]
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'

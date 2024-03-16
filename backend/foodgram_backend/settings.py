@@ -114,6 +114,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
         ],
+
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.CustomPagination',
 }
 
 DJOSER = {
@@ -122,7 +124,7 @@ DJOSER = {
         'user': 'api.serializers.CustomUserSerializer',
         'current_user': 'api.serializers.CustomUserSerializer',
     },
-
+    'HIDE_USERS': False,
     'PERMISSIONS': {
         'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
         'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
