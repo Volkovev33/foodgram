@@ -9,7 +9,7 @@
 [![gunicorn](https://img.shields.io/badge/-gunicorn-464646?style=flat-square&logo=gunicorn)](https://gunicorn.org/)
 [![docker](https://img.shields.io/badge/-Docker-464646?style=flat-square&logo=docker)](https://www.docker.com/)
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
-[![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
+![Swagger Validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2FOAI%2FOpenAPI-Specification%2Fmaster%2Fexamples%2Fv2.0%2Fjson%2Fpetstore-expanded.json)
 
 
 
@@ -46,6 +46,7 @@ scp nginx.conf <username>@<host>:/home/<username>/nginx.conf
     SECRET_KEY=<секретный ключ проекта django>
     DEBUG=<статус дебага>
     ALLOWED_HOSTS=<список разрешённых хостов>
+    CSRF_TRUSTED_ORIGINS=<fqdn хоста>
     ```
 * Для работы с Workflow добавьте в Secrets GitHub переменные окружения для работы:
     ```
@@ -69,38 +70,38 @@ scp nginx.conf <username>@<host>:/home/<username>/nginx.conf
     DEBUG=<статус дебага>
     ALLOWED_HOSTS=<список разрешённых хостов>
     ```
-    Workflow состоит из трёх шагов:
-     - Проверка кода на соответствие PEP8
+    Workflow состоит из двух шагов:
      - Сборка и публикация образа бекенда на DockerHub.
      - Автоматический деплой на удаленный сервер.
 
 * На сервере соберите docker-compose:
 ```
-sudo docker-compose up -d --build
+sudo docker compose up -d --build
 ```
 * После успешной сборки на сервере выполните команды (только после первого деплоя):
     - Соберите статические файлы:
     ```
-    sudo docker-compose exec backend python manage.py collectstatic --noinput
+    sudo docker compose exec backend python manage.py collectstatic --noinput
     ```
     - Примените миграции:
     ```
-    sudo docker-compose exec backend python manage.py makemigrations
-    sudo docker-compose exec backend python manage.py migrate --noinput
+    sudo docker compose exec backend python manage.py makemigrations
+    sudo docker compose exec backend python manage.py migrate --noinput
     ```
     - Загрузите ингридиенты  в базу данных (необязательно):  
-    *Если файл не указывать, по умолчанию выберется ingredients.json*
+    *По умолчанию выберется ingredients.json*
     ```
-    sudo docker-compose exec backend python manage.py load_ingredients <Название файла из директории data>
+    sudo docker compose exec backend python manage.py load_ingredients <Название файла из директории data>
     ```
     - Создать суперпользователя Django:
     ```
-    sudo docker-compose exec backend python manage.py createsuperuser
+    sudo docker compose exec backend python manage.py createsuperuser
     ```
     - Проект будет доступен по вашему IP
 
 ## Доступные эдпоинты
 При после запуска, список доступных запросов, можно увидеть в документации к апи:
+(реализована автодокументация с использованием swagger)
 ```
 <adpress>/api/docs/
 ```
@@ -109,6 +110,10 @@ sudo docker-compose up -d --build
 Проект запущен и доступен по [адресу](https://yaprojects.ddns.net/)
 
 ### Основные эндпоинты
+Документация:
+```
+http://yaprojects.ddns.net/api/api/docs/
+```
 Ингридиенты:
 ```
 http://yaprojects.ddns.net/api/ingredients/
