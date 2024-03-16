@@ -15,3 +15,4 @@ python-dotenv>=1.0.0
 djoser>=2.2.0
 drf-extra-fields==3.4.0
 django-cors-headers==4.3.1
+drf-spectacular==0.27.0

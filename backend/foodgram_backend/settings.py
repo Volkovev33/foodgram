@@ -23,13 +23,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'djoser',
+    'django_filters',
+    'drf_spectacular',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_filters',
     'api.apps.ApiConfig',
     'recipes.apps.RecipesConfig',
-    'corsheaders',
     'users.apps.UsersConfig',
 ]
 
@@ -116,6 +117,15 @@ REST_FRAMEWORK = {
         ],
 
     'DEFAULT_PAGINATION_CLASS': 'api.pagination.CustomPagination',
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Foodgram Swagger API',
+    'DESCRIPTION': 'Foodgram Swagger API schema',
+    'VERSION': '1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 DJOSER = {
