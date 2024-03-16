@@ -32,7 +32,8 @@ class ListRetrieveViewSet(mixins.ListModelMixin,
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """
-    Основной вьюсет для Рецептов/Избранного/Корзины.
+    Получение списка рецептов, избранного и
+    списка покупок.
     """
     queryset = Recipe.objects.all()
     pagination_class = CustomPagination
@@ -74,19 +75,25 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(methods=['post'], detail=True,
             permission_classes=[permissions.IsAuthenticated])
     def favorite(self, request, pk):
+        """
+        Добавление рецепта в избранное
+        """
         return self.post_method_for_action(request=request, pk=pk,
                                            serializers=FavoriteSerializer)
 
     @action(methods=['post'], detail=True,
             permission_classes=[permissions.IsAuthenticated])
     def shopping_cart(self, request, pk):
+        """
+        Добавление рецепта в список покупок
+        """
         return self.post_method_for_action(request=request, pk=pk,
                                            serializers=ShoppingListSerializer)
 
     @staticmethod
     def delete_method_for_actions(request, pk, model):
         """
-        Общий метод для удаления Избранного/Корзины.
+        Общий метод для удаления избранного/списка покупок.
         """
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk)
@@ -95,30 +102,36 @@ class RecipeViewSet(viewsets.ModelViewSet):
             model_object.delete()
             if 'favorite' in request.path:
                 return Response(
-                    'Удалён из избранного',
+                    'Рецепт удалён из избранного',
                     status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(
-                    'Уже далён из избранного',
+                    'Рецепт удалён из списка покупок',
                     status=status.HTTP_204_NO_CONTENT)
         else:
             if 'cart' in request.path:
                 return Response(
-                    'Удалён из списка покупок',
+                    'Рецепт уже удалён из списка покупок',
                     status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(
-                    'Уже удалён из списка покупок',
+                    'Рецепт уже удалён из списка покупок',
                     status=status.HTTP_400_BAD_REQUEST)
 
     @favorite.mapping.delete
     def delete_favorite(self, request, pk):
+        """
+        Удаление рецепта из избранного
+        """
         return self.delete_method_for_actions(
             request=request, pk=pk, model=Favorite
         )
 
     @shopping_cart.mapping.delete
     def delete_shopping_cart(self, request, pk):
+        """
+        Удаление рецепта из списка покупок
+        """
         return self.delete_method_for_actions(
             request=request, pk=pk, model=ShoppingCart
         )
@@ -129,7 +142,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def download_shopping_cart(self, request):
         """
-        Скачивание Корзины.
+        Скачивание списка покупок
         """
         user = request.user
         if not user.shopping_cart.exists():
@@ -163,7 +176,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 class IngredientViewSet(ListRetrieveViewSet):
     """
-    Вьюсет для ингредиентов с фильрацией по полю name.
+    Получение игредиентов (фильрация по полю name)
     """
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
@@ -175,7 +188,7 @@ class IngredientViewSet(ListRetrieveViewSet):
 
 class TagViewSet(ListRetrieveViewSet):
     """
-    Вьюсет для тегов
+    Получение тегов
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
