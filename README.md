@@ -1,5 +1,5 @@
 # Проект Foodgram
-![example workflow](https://github.com/NIK-TIGER-BILL/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)  
+![example workflow](https://github.com/volkovev33/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)  
   
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
