@@ -207,6 +207,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         )
         if tags_list > tags_set:
             raise serializers.ValidationError('Тэг должен быть уникальным!')
+        return data
 
     @staticmethod
     def create_ingredients(ingredients, recipe):
