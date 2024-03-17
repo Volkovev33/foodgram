@@ -263,6 +263,13 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = ('user', 'recipe')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Favorite.objects.all(),
+                fields=('user', 'recipe'),
+                message='Уже в избранном.'
+            )
+        ]
 
     def to_representation(self, instance):
         request = self.context.get('request')
@@ -276,6 +283,13 @@ class ShoppingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingCart
         fields = ('user', 'recipe')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ShoppingCart.objects.all(),
+                fields=('user', 'recipe'),
+                message='Уже в списке покупок.'
+            )
+        ]
 
     def to_representation(self, instance):
         request = self.context.get('request')
