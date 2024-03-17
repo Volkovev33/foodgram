@@ -9,7 +9,7 @@ from recipes.models import (Favorite, Ingredient, IngredientInRecipe,
 from users.models import Subscribe, User
 
 
-class CustomUserCreateSerializer(UserCreateSerializer):
+class UserCreateSerializer(UserCreateSerializer):
 
     class Meta:
         model = User
@@ -18,7 +18,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         )
 
 
-class CustomUserSerializer(UserSerializer):
+class UserSerializer(UserSerializer):
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -135,7 +135,7 @@ class IngredientsInRecipesPostSerializer(serializers.ModelSerializer):
 
 class RecipeReadSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
-    author = CustomUserSerializer(read_only=True)
+    author = UserSerializer(read_only=True)
     ingredients = serializers.SerializerMethodField(read_only=True)
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField(read_only=True)
@@ -169,7 +169,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True)
     ingredients = IngredientsInRecipesPostSerializer(many=True)
-    author = CustomUserSerializer(read_only=True)
+    author = UserSerializer(read_only=True)
     image = Base64ImageField()
 
     class Meta:
