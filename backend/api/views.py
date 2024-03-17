@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.db.models import Sum
-from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -54,23 +53,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         data = {'user': request.user.id, 'recipe': pk}
         serializer = serializers(data=data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        if 'cart' in request.path:
-            try:
-                serializer.save()
-            except IntegrityError:
-                return Response('Уже в избранном',
-                                status=status.HTTP_400_BAD_REQUEST)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        elif 'favorite' in request.path:
-            try:
-                serializer.save()
-            except IntegrityError:
-                return Response('Уже в избранном',
-                                status=status.HTTP_400_BAD_REQUEST)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(methods=['post'], detail=True,
             permission_classes=[permissions.IsAuthenticated])
@@ -100,23 +84,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
         model_object = model.objects.filter(user=user, recipe=recipe)
         if model_object.exists():
             model_object.delete()
-            if 'favorite' in request.path:
-                return Response(
-                    'Рецепт удалён из избранного',
-                    status=status.HTTP_204_NO_CONTENT)
-            else:
-                return Response(
-                    'Рецепт удалён из списка покупок',
-                    status=status.HTTP_204_NO_CONTENT)
+            return Response(
+                f'Рецепт удалён из {model._meta.verbose_name.title()}',
+                status=status.HTTP_204_NO_CONTENT)
         else:
-            if 'cart' in request.path:
-                return Response(
-                    'Рецепт уже удалён из списка покупок',
-                    status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response(
-                    'Рецепт уже удалён из списка покупок',
-                    status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                f'Рецепт уже удалён из {model._meta.verbose_name.title()}',
+                status=status.HTTP_400_BAD_REQUEST)
 
     @favorite.mapping.delete
     def delete_favorite(self, request, pk):
@@ -133,8 +107,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         Удаление рецепта из списка покупок
         """
         return self.delete_method_for_actions(
-            request=request, pk=pk, model=ShoppingCart
-        )
+            request=request, pk=pk, model=ShoppingCart)
 
     @action(
         detail=False,
