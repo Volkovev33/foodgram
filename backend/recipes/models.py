@@ -23,7 +23,6 @@ class Ingredient(models.Model):
                 name='unique_ingridient')
         ]
 
-
     def __str__(self):
         return f'{self.name}, измеряем в {self.measurement_unit}'
 
